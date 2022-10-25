@@ -7,6 +7,7 @@ package Jornada;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -47,6 +48,10 @@ public class ConexionSQL {
       
         
      
+    }
+
+    PreparedStatement prepareStatement() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
     

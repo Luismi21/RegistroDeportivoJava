@@ -1,11 +1,15 @@
 package Jornada;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,14 +32,7 @@ public class Jugador extends javax.swing.JFrame {
 
     public void inicializar() {
         //  JcbDia=new JComboBox<>();
-     
 
-       
-
-
-
-                
-        
     }
 
     /**
@@ -76,8 +73,6 @@ public class Jugador extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jtfNojugador = new javax.swing.JTextField();
         jtbGuardar = new javax.swing.JButton();
-        jtbBorrar = new javax.swing.JButton();
-        jtbEditar = new javax.swing.JButton();
         txtAnio = new javax.swing.JTextField();
         txtMes = new javax.swing.JTextField();
         txtDia = new javax.swing.JTextField();
@@ -161,7 +156,7 @@ public class Jugador extends javax.swing.JFrame {
                     .addComponent(jButton3))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jLabel1.setText("Id_Jugador: ");
@@ -193,10 +188,6 @@ public class Jugador extends javax.swing.JFrame {
             }
         });
 
-        jtbBorrar.setText("Borrar");
-
-        jtbEditar.setText("Editar");
-
         txtMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMesActionPerformed(evt);
@@ -223,13 +214,22 @@ public class Jugador extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel12)
                                 .addGap(9, 9, 9)
-                                .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel13)
+                                .addGap(3, 3, 3)
+                                .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(15, 15, 15))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
@@ -238,54 +238,42 @@ public class Jugador extends javax.swing.JFrame {
                                         .addComponent(jLabel3))
                                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtfAPaterno)
-                                    .addComponent(jtfAMaterno)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jtfAPaterno, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtfAMaterno, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jtfIdJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel13)
-                        .addGap(3, 3, 3)
-                        .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38))
+                                        .addComponent(jtfIdJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addGap(140, 140, 140))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGap(4, 4, 4)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtfCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel10))
-                                .addGap(11, 11, 11)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jtfNojugador, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtfCalle, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                                    .addComponent(jtfColonia)
-                                    .addComponent(jtfNumero)))
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(jtbGuardar)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jtfCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel8)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel9)
+                                        .addComponent(jLabel10))
+                                    .addGap(11, 11, 11)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jtfNojugador, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jtfCalle, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                                        .addComponent(jtfColonia)
+                                        .addComponent(jtfNumero)))
+                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jtfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jtbGuardar)
-                        .addGap(45, 45, 45)
-                        .addComponent(jtbBorrar)))
-                .addGap(49, 49, 49)
-                .addComponent(jtbEditar)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(jtfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,12 +327,9 @@ public class Jugador extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jtfNojugador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtbGuardar)
-                    .addComponent(jtbBorrar)
-                    .addComponent(jtbEditar))
-                .addGap(27, 27, 27))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jtbGuardar)
+                .addGap(32, 32, 32))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -354,8 +339,8 @@ public class Jugador extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,50 +353,50 @@ public class Jugador extends javax.swing.JFrame {
 
     private void jtbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbGuardarActionPerformed
 
-        int idjugador=Integer.parseInt(jtfIdJugador.getText());
-        String Nombre=jtfNombre.getText();
-             String aPaterno=jtfAPaterno.getText();
-String aMaterno=jtfAMaterno.getText();
+        int idjugador = Integer.parseInt(jtfIdJugador.getText());
+        String Nombre = jtfNombre.getText();
+        String aPaterno = jtfAPaterno.getText();
+        String aMaterno = jtfAMaterno.getText();
 
-        SimpleDateFormat dFormat=new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+        String Correo = jtfCorreo.getText();
+        int tel = Integer.parseInt(jtfTelefono.getText());
+        String calle = jtfCalle.getText();
+        String colonia = jtfColonia.getText();
+        int Dia = Integer.parseInt(txtDia.getText());
+        String mes = txtMes.getText();
+        int anio = Integer.parseInt(txtAnio.getText());
+        int numero = Integer.parseInt(jtfNumero.getText());
+        int noJugador = Integer.parseInt(jtfNojugador.getText());
+        ConexionSQL conexion = new ConexionSQL();
+        conexion.getConexion();
+        Connection conn = conexion.getConexion();
+        try {
 
-String Correo=jtfCorreo.getText();
-int tel=Integer.parseInt(jtfTelefono.getText());
-String calle=jtfCalle.getText();
-String colonia=jtfColonia.getText();
-int Dia=Integer.parseInt( txtDia.getText());
-String mes=txtMes.getText();
-int anio=Integer.parseInt(txtAnio.getText());
-int numero=Integer.parseInt(jtfNumero.getText());
-int noJugador= Integer.parseInt( jtfNojugador.getText());
-          ConexionSQL conexion = new ConexionSQL();
-conexion.getConexion();
-Connection conn = conexion.getConexion();
-try{
-  
-    PreparedStatement ps = conn.prepareStatement("INSERT INTO Jugadores VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-    ps.setInt(1, idjugador);
-    ps.setInt(2, idjugador);
-    ps.setString(3, Nombre);
-    ps.setString(4, aPaterno);
-   ps.setString(5, aMaterno);
-   ps.setInt(6, Dia);
-   ps.setString(7, mes);
-   ps.setInt(8, anio);
-   ps.setString(9, Correo);
-   ps.setInt(10, tel);
-           ps.setString(11, calle);
-           ps.setString(12, colonia);
-           ps.setInt(13, numero);
-           ps.setInt(14, noJugador);
-   ps.executeUpdate();
-    JOptionPane.showMessageDialog(null, "Registro guardado");
-   
-} catch(SQLException e){
-    JOptionPane.showMessageDialog(null, e.toString());
-}
-        
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Jugadores VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            ps.setInt(1, idjugador);
+            ps.setInt(2, 2);
+            ps.setString(3, Nombre);
+            ps.setString(4, aPaterno);
+            ps.setString(5, aMaterno);
+            ps.setInt(6, Dia);
+            ps.setString(7, mes);
+            ps.setInt(8, anio);
+            ps.setString(9, Correo);
+            ps.setInt(10, tel);
+            ps.setString(11, calle);
+            ps.setString(12, colonia);
+            ps.setInt(13, numero);
+            ps.setInt(14, noJugador);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Registro guardado");
+         //   limpiar();
+            cargartabla();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jtbGuardarActionPerformed
 
@@ -420,41 +405,94 @@ try{
     }//GEN-LAST:event_txtMesActionPerformed
 
     private void txtDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDiaActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
     }//GEN-LAST:event_txtDiaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
-        Partidos part=new Partidos();
+
+        Partidos part = new Partidos();
         part.setVisible(true);
-        
+
         this.dispose();
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
-        equipo equ=new equipo();
+
+        equipo equ = new equipo();
         equ.setVisible(true);
-        
+
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        
-        estadios est=new estadios();
+
+        estadios est = new estadios();
         est.setVisible(true);
-        
+
         this.dispose();
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    private void limpiar() {
+        jtfIdJugador.setText("");
+        jtfNombre.setText("");
+        jtfAPaterno.setText("");
+        jtfAMaterno.setText("");
+        jtfCorreo.setText("");
+        jtfTelefono.setText("");
+        jtfCalle.setText("");
+        jtfColonia.setText("");
+        txtDia.setText("");
+        txtMes.setText("");
+        txtAnio.setText("");
+        jtfNumero.setText("");
+        jtfNojugador.setText("");
+
+    }
+    
+    private void cargartabla(){
+        
+            DefaultTableModel modeloTabla= (DefaultTableModel) table.getModel();
+            modeloTabla.setRowCount(0);
+            PreparedStatement ps;
+            
+            ResultSet rs = null;
+            ResultSetMetaData rsmd;
+            
+            int columnas;
+        
+            try{
+         ConexionSQL conexion = new ConexionSQL();
+        conexion.getConexion();
+              Connection conn = conexion.getConexion();
+                ps=conn.prepareStatement("SELECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?");
+                ps.executeQuery();
+                rsmd=rs.getMetaData();
+                
+                columnas = rsmd.getColumnCount();
+                
+                while (rs.next()) {
+                
+                    Object [] fila=new  Object[columnas];
+                    for(int indice=0; indice<columnas; indice++){
+                        fila[indice]=rs.getObject(indice+1);
+                    }
+                    modeloTabla.addRow(fila);
+                    
+                }
+            }catch(SQLException E){
+                JOptionPane.showMessageDialog(null, E.toString());
+            }
+            
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -508,8 +546,6 @@ try{
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jtbBorrar;
-    private javax.swing.JButton jtbEditar;
     private javax.swing.JButton jtbGuardar;
     private javax.swing.JTextField jtfAMaterno;
     private javax.swing.JTextField jtfAPaterno;
