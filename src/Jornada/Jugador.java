@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -32,7 +34,7 @@ public class Jugador extends javax.swing.JFrame {
 
     public void inicializar() {
         //  JcbDia=new JComboBox<>();
-
+        cargartabla();
     }
 
     /**
@@ -79,6 +81,8 @@ public class Jugador extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        BTN_Eliminar = new javax.swing.JButton();
+        BTN_Actualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,6 +107,11 @@ public class Jugador extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(table);
@@ -206,74 +215,106 @@ public class Jugador extends javax.swing.JFrame {
 
         jLabel14.setText("Año");
 
+        BTN_Eliminar.setText("Eliminar");
+        BTN_Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BTN_EliminarMouseClicked(evt);
+            }
+        });
+        BTN_Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTN_EliminarActionPerformed(evt);
+            }
+        });
+
+        BTN_Actualizar.setText("Actualizar");
+        BTN_Actualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BTN_ActualizarMouseClicked(evt);
+            }
+        });
+        BTN_Actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTN_ActualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel3))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jtfAPaterno, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtfAMaterno, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jtfIdJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel12)
-                                .addGap(9, 9, 9)
-                                .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel13)
-                                .addGap(3, 3, 3)
-                                .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel12)
+                                        .addGap(9, 9, 9)
+                                        .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel13)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(4, 4, 4)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                                .addComponent(jLabel6)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jtfCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel8)
+                                                    .addComponent(jLabel7)
+                                                    .addComponent(jLabel9)
+                                                    .addComponent(jLabel10))
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addGap(11, 11, 11)
+                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                            .addComponent(jtfNojugador, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(jtfCalle, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                                                            .addComponent(jtfColonia)
+                                                            .addComponent(jtfNumero)))
+                                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(jtfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(85, 85, 85)
+                                .addComponent(jtbGuardar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(BTN_Eliminar)
+                                .addGap(20, 20, 20)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel14)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(15, 15, 15))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jLabel3))
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jtfAPaterno, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtfAMaterno, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jtfIdJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                        .addGap(140, 140, 140))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jtbGuardar)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel6)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jtfCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel8)
-                                        .addComponent(jLabel7)
-                                        .addComponent(jLabel9)
-                                        .addComponent(jLabel10))
-                                    .addGap(11, 11, 11)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jtfNojugador, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jtfCalle, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                                        .addComponent(jtfColonia)
-                                        .addComponent(jtfNumero)))
-                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jtfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(BTN_Actualizar, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGap(140, 140, 140))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,11 +348,11 @@ public class Jugador extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jtfCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(jtfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jtfCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -327,9 +368,12 @@ public class Jugador extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jtfNojugador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jtbGuardar)
-                .addGap(32, 32, 32))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtbGuardar)
+                    .addComponent(BTN_Eliminar)
+                    .addComponent(BTN_Actualizar))
+                .addGap(27, 27, 27))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -361,7 +405,7 @@ public class Jugador extends javax.swing.JFrame {
         SimpleDateFormat dFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         String Correo = jtfCorreo.getText();
-        int tel = Integer.parseInt(jtfTelefono.getText());
+        String tel = jtfTelefono.getText();
         String calle = jtfCalle.getText();
         String colonia = jtfColonia.getText();
         int Dia = Integer.parseInt(txtDia.getText());
@@ -384,14 +428,14 @@ public class Jugador extends javax.swing.JFrame {
             ps.setString(7, mes);
             ps.setInt(8, anio);
             ps.setString(9, Correo);
-            ps.setInt(10, tel);
+            ps.setString(10, tel);
             ps.setString(11, calle);
             ps.setString(12, colonia);
             ps.setInt(13, numero);
             ps.setInt(14, noJugador);
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Registro guardado");
-         //   limpiar();
+            //   limpiar();
             cargartabla();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());
@@ -437,6 +481,58 @@ public class Jugador extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void BTN_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTN_EliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BTN_EliminarActionPerformed
+
+    private void BTN_EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BTN_EliminarMouseClicked
+
+        String consulta = "DELETE FROM Jugadores WHERE (IdJugador =";
+        consulta = consulta + jtfIdJugador.getText() + " )";
+
+        try {
+
+            ConexionSQL conexion = new ConexionSQL();
+            conexion.getConexion();
+            Connection conn = conexion.getConexion();
+
+            PreparedStatement ps = conn.prepareStatement(consulta);
+            ps.execute();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Jugador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        cargartabla();
+
+    }//GEN-LAST:event_BTN_EliminarMouseClicked
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+
+        int filaSelect;
+
+        try {
+            DefaultTableModel tm = (DefaultTableModel) table.getModel();
+            String dato = String.valueOf(tm.getValueAt(table.getSelectedRow(), 0));
+            filaSelect = Integer.parseInt(dato);
+
+            datoscargar(filaSelect);
+
+        } catch (Exception e) {
+        }
+
+    }//GEN-LAST:event_tableMouseClicked
+
+    private void BTN_ActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BTN_ActualizarMouseClicked
+
+        //Aqui va el codigo de actuaizar
+        actualizar(Integer.parseInt(jtfIdJugador.getText()));
+    }//GEN-LAST:event_BTN_ActualizarMouseClicked
+
+    private void BTN_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTN_ActualizarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BTN_ActualizarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -456,41 +552,133 @@ public class Jugador extends javax.swing.JFrame {
         jtfNojugador.setText("");
 
     }
-    
-    private void cargartabla(){
-        
-            DefaultTableModel modeloTabla= (DefaultTableModel) table.getModel();
-            modeloTabla.setRowCount(0);
-            PreparedStatement ps;
-            
-            ResultSet rs = null;
-            ResultSetMetaData rsmd;
-            
-            int columnas;
-        
-            try{
-         ConexionSQL conexion = new ConexionSQL();
-        conexion.getConexion();
-              Connection conn = conexion.getConexion();
-                ps=conn.prepareStatement("SELECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?");
-                ps.executeQuery();
-                rsmd=rs.getMetaData();
-                
-                columnas = rsmd.getColumnCount();
-                
-                while (rs.next()) {
-                
-                    Object [] fila=new  Object[columnas];
-                    for(int indice=0; indice<columnas; indice++){
-                        fila[indice]=rs.getObject(indice+1);
-                    }
-                    modeloTabla.addRow(fila);
-                    
-                }
-            }catch(SQLException E){
-                JOptionPane.showMessageDialog(null, E.toString());
+
+    private void datoscargar(int posicion) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) table.getModel();
+        modeloTabla.setRowCount(0);
+        PreparedStatement ps;
+
+        String consulta = "SELECT * FROM Jugadores WHERE (IdJugador =";
+        consulta = consulta + posicion + ")";
+
+        ResultSet rs = null;
+        ResultSetMetaData rsmd;
+
+        int columnas;
+
+        try {
+            ConexionSQL conexion = new ConexionSQL();
+            conexion.getConexion();
+            Connection conn = conexion.getConexion();
+
+            ps = conn.prepareStatement(consulta);
+            rs = ps.executeQuery();
+            rsmd = rs.getMetaData();
+
+            columnas = rsmd.getColumnCount();
+
+            while (rs.next()) {
+
+                Object fila = new Object[columnas];
+
+                jtfIdJugador.setText(rs.getObject(1).toString());
+                jtfNombre.setText(rs.getObject(3).toString());
+                jtfAPaterno.setText(rs.getObject(4).toString());
+                jtfAMaterno.setText(rs.getObject(5).toString());
+                txtDia.setText(rs.getObject(6).toString());
+                txtMes.setText(rs.getObject(7).toString());
+                txtAnio.setText(rs.getObject(8).toString());
+                jtfCorreo.setText(rs.getObject(9).toString());
+                jtfTelefono.setText(rs.getObject(10).toString());
+                jtfCalle.setText(rs.getObject(11).toString());
+                jtfColonia.setText(rs.getObject(12).toString());
+                jtfNumero.setText(rs.getObject(13).toString());
+                jtfNojugador.setText(rs.getObject(14).toString());
             }
+
+            cargartabla();
+
+        } catch (SQLException E) {
+            JOptionPane.showMessageDialog(null, E.toString());
+        }
+    }
+
+    private void cargartabla() {
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) table.getModel();
+        modeloTabla.setRowCount(0);
+        PreparedStatement ps;
+
+        ResultSet rs = null;
+        ResultSetMetaData rsmd;
+
+        int columnas;
+
+        try {
+            ConexionSQL conexion = new ConexionSQL();
+            conexion.getConexion();
+            Connection conn = conexion.getConexion();
+
+            ps = conn.prepareStatement("SELECT Idjugador, Nombre, Telefono, NoJugador FROM Jugadores");
+            rs = ps.executeQuery();
+            rsmd = rs.getMetaData();
+
+            columnas = rsmd.getColumnCount();
+
+            while (rs.next()) {
+
+                Object[] fila = new Object[columnas];
+                for (int indice = 0; indice < columnas; indice++) {
+                    fila[indice] = rs.getObject(indice + 1);
+                }
+                modeloTabla.addRow(fila);
+
+            }
+        } catch (SQLException E) {
+            JOptionPane.showMessageDialog(null, E.toString());
+        }
+
+    }
+
+    public void actualizar(int posicion) {
+
+        PreparedStatement ps;
+
+        ResultSet rs = null;
+        ResultSetMetaData rsmd;
+
+        int columnas;
+
+        try {
+
+            String consulta = "UPDATE Jugadores SET Nombre = '";
+            consulta = consulta + jtfNombre.getText() + "', Apaterno = '";
+            consulta = consulta + jtfAMaterno.getText() + "', Dia = ";
+            consulta = consulta + txtDia.getText() + ", Mes = '";
+            consulta = consulta + txtMes.getText() + "', Año = ";
+            consulta = consulta + txtAnio.getText() + ", Correo = '";
+            consulta = consulta + jtfCorreo.getText() + "', Telefono = '";
+            consulta = consulta + jtfTelefono.getText() + "', Calle = '";
+            consulta = consulta + jtfCalle.getText() + "', Colonia = '";
+            consulta = consulta + jtfColonia.getText() + "', NumeroCasa = ";
+            consulta = consulta + jtfNumero.getText() + ", NoJugador = ";
+            consulta = consulta + jtfNojugador.getText()+ "WHERE (IdJugador = ";
+            consulta = consulta + posicion +")";
+                        
             
+            ConexionSQL conexion = new ConexionSQL();
+            conexion.getConexion();
+            Connection conn = conexion.getConexion();
+            
+            ps = conn.prepareStatement(consulta);
+            ps.execute();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Jugador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        cargartabla();
+
     }
 
     public static void main(String args[]) {
@@ -526,6 +714,8 @@ public class Jugador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BTN_Actualizar;
+    private javax.swing.JButton BTN_Eliminar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
